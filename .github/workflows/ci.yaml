@@ -21,9 +21,9 @@ jobs:
     name: Build and Tests
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ${{ inputs.working.directory }}
+    # defaults:
+    #   run:
+    #     working-directory: ${{ inputs.working.directory }}
 
     environment: ${{ inputs.env }}
 
