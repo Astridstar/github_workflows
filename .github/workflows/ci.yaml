@@ -1,0 +1,60 @@
+name: "CI"
+
+on:
+  workflow_call:
+    inputs:
+      env:
+        required: true
+        type: string
+        default:  "development"
+      positive_route:
+         required: true
+         type: boolean
+         default: false
+      # working-directory:
+      #   required: false
+      #   type: string
+      #   default: '.'
+
+jobs:
+  build:
+    name: Build and Tests
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ${{ inputs.working.directory }}
+
+    environment: ${{ inputs.env }}
+
+    #if: ( inputs.env == null || inputs.env == "development" ) && github.actor != 'dependabot[bot]'
+    if: github.actor != 'dependabot[bot]'
+    steps:
+      - name: Checkout code
+        id: step1
+        uses: actions/checkout@v3.5.2
+
+      - name: Setup dotnet
+        id: step2
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.*
+        
+      - name: Install dependencies
+        run: dotnet restore
+        id: step3
+
+      - name: Build the code
+        run: dotnet build
+        id: step4
+
+      - name: Run tests
+        if: inputs.positive_route == true
+        run: echo "All tests passed"
+        id: step5
+
+      - name: Run tests
+        if: inputs.positive_route == false
+        run: echo "Tests FAILED
+        id: step6
+        

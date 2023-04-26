@@ -1,0 +1,27 @@
+name: Simulate running of tests
+
+on:
+  workflow_call:
+    inputs:
+      toPassed:
+        required: true
+        type: boolean
+        default: false
+      env:
+        required: true
+        type: string
+        default: "development"
+    outputs:
+      
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.env }}
+    steps:
+      - if: inputs.toPassed == false
+        name: Failed
+        run: exit 1
+      - if: inputs.toPassed == true
+        name: Tests Passed
+        run: exit 0
