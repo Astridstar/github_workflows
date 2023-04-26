@@ -28,7 +28,6 @@ jobs:
     environment: ${{ inputs.env }}
 
     #if: ( inputs.env == null || inputs.env == "development" ) && github.actor != 'dependabot[bot]'
-    if: github.actor != 'dependabot[bot]'
     steps:
       - name: Checkout code
         id: step1
